@@ -1,44 +1,7 @@
 import React from 'react';
 
 class CartItem extends React.Component{
-   
 
-    // testing(){
-    //     const promise = new Promise((resolve,reject) => {
-    //         setTimeout(()=>{
-    //             resolve("done")
-    //         },5000);
-    //     })
-    //     promise.then(()=>{
-    //         this.setState({ quantity: this.state.quantity + 1});
-    //         this.setState({ quantity: this.state.quantity + 1});
-    //         this.setState({ quantity: this.state.quantity + 1});
-    //         console.log("state", this.state)
-    //     })
-    // }
-    increaseQuantity = () => {
-        //this.state.quantity += 1;
-        console.log(this.state)
-        //setState form 1
-        // this.setState({
-        //     quantity: this.state.quantity + 1
-        // })
-        //setState form 2 :-- use this when previous state is required
-        this.setState((preState)=>{
-            return{
-                quantity: preState.quantity + 1
-            }
-        })
-    }
-    decreaseQuantity=()=>{
-        const {quantity} = this.state
-        if (quantity===0){
-            return;
-        }
-        this.setState({
-           quantity: this.state.quantity - 1
-         })
-    }
     render(){
         console.log(this.props)
         const {price,quantity,title} = this.props.product
@@ -56,7 +19,7 @@ class CartItem extends React.Component{
                             <img alt="increase" 
                             className="action-icons" 
                             src="https://www.flaticon.com/svg/static/icons/svg/1828/1828926.svg" 
-                            onClick={this.increaseQuantity}
+                            onClick={()=>this.props.onIncreaseQuantity(this.props.product)}
                             />
                             <img alt="decrease"
                             className="action-icons"
