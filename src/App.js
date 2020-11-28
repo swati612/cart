@@ -1,14 +1,110 @@
 
 import React from 'react';
 import Cart from './Cart';
+import Navbar from './Navbar';
 
-function App() {
-  return (
-    <div className="App">
+class App extends React.Component {
+
+  constructor(){
+    super();
     
-    <Cart/>
-    </div>
-  );
+    this.state={
+     products:[
+        {
+        price:599,
+        title:'Watch',
+        quantity:1,
+        img: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+        id:1
+        },
+        {
+        price:1999,
+        title:'Phone',
+        quantity:10,
+        img: 'https://images.unsplash.com/photo-1520923642038-b4259acecbd7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1306&q=80',
+        id:2
+        },
+        {
+        price:40999,
+        title:'Laptop',
+        quantity:16,
+        img: 'https://images.unsplash.com/photo-1504707748692-419802cf939d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1330&q=80',
+        id:3
+        }
+     ]
+    }
+    //this.increaseQuantity = this.increaseQuantity.bind(this)
+    //this.testing()
 }
+handlerIncreaseQuantity = (product) =>{
+    console.log("increase",product)
+    const {products} = this.state
+    const index = products.indexOf(product)
+    products[index].quantity +=1;
+    this.setState({
+        // products:products
+        products
+    })
+}
+handlerDecreaseQuantity =(product) =>{
+    console.log("decrease",product)
+    const {products} = this.state
+    const index = products.indexOf(product)
+    if (products[index].quantity ===0){
+     return (console.log("0"))
+    }
+    products[index].quantity -=1;
+    this.setState({
+        // products:products
+        products
+    })
+}
+handlerDeleteProduct = (id)=>{
+    const {products} = this.state
+    const items = products.filter((item)=>
+    item.id !== id
+    )
+    this.setState({
+        products:items
+    })
+}
+      getCartCount =()=>{
+        const {products} = this.state
+        let count =0;
 
+        products.forEach((product) => {
+          count +=product.quantity
+        });
+        return count;
+      }
+
+      getCartTotal = () => {
+        const { products } = this.state;
+    
+        let cartTotal = 0;
+    
+        products.map((product) => {
+          cartTotal = cartTotal + product.quantity * product.price
+        })
+    
+        return cartTotal;
+      }
+  render(){
+
+    const {products} = this.state
+      return (
+        <div className="App">
+        <Navbar count ={this.getCartCount()}/>
+        <Cart 
+        products={products}
+        onIncreaseQuantity= {this.handlerIncreaseQuantity}
+        ondecreaseQuantity= {this.handlerDecreaseQuantity}
+        onDeleteProduct = {this.handlerDeleteProduct}
+        />
+        <div style={ {padding: 10, fontSize: 20} }>TOTAL: Rs {this.getCartTotal()} </div>
+
+        </div>
+      );
+    }
+}
 export default App;
